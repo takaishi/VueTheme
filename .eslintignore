@@ -1,4 +1,4 @@
 node_modules/*
-webpack.config.js
+__webpack.config.js
 gulpfile.js
 dist/*

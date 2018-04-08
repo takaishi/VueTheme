@@ -7,17 +7,21 @@ function rt_rest_theme_scripts() {
 	$base_url  = esc_url_raw( home_url() );
 	$base_path = rtrim( parse_url( $base_url, PHP_URL_PATH ), '/' );
 
-	if ( defined( 'RT_VUE_DEV' ) && RT_VUE_DEV ) {
+//	if ( defined( 'RT_VUE_DEV' ) && RT_VUE_DEV ) {
 
-		wp_enqueue_script( 'rest-theme-vue', 'http://localhost:8080/dist/build.js', array( 'jquery' ), '1.0.0', true );
+//        wp_enqueue_script( 'rest-theme-vue', 'http://localhost:8080/dist/scripts/manifest.js', array( 'jquery' ), '1.0.0', true );
+//        wp_enqueue_script( 'rest-theme-vue', 'http://localhost:8080/dist/scripts/vendor.js', array( 'jquery' ), '1.0.0', true );
+//		wp_enqueue_script( 'rest-theme-vue', 'http://localhost:8080/dist/scripts/main.js', array( 'jquery' ), '1.0.0', true );
 
-	} else {
+//	} else {
 
-		wp_enqueue_script( 'rest-theme-vue', get_template_directory_uri() . '/dist/build.js', array( 'jquery' ), '1.0.0', true );
+        wp_enqueue_script( 'rest-theme-vue/manifest.js', get_template_directory_uri() . '/dist/scripts/manifest.js', null, null, true );
+        wp_enqueue_script( 'rest-theme-vue/vendor.js', get_template_directory_uri() . '/dist/scripts/vendor.js', null, null, true );
+		wp_enqueue_script( 'rest-theme-vue/main.js', get_template_directory_uri() . '/dist/scripts/main.js', null, null, true );
 
-	}
+//	}
 
-	wp_localize_script( 'rest-theme-vue', 'rtwp', array(
+	wp_localize_script( 'rest-theme-vue/main.js', 'rtwp', array(
 		'root'      => esc_url_raw( rest_url() ),
 		'base_url'  => $base_url,
 		'base_path' => $base_path ? $base_path . '/' : '/',
