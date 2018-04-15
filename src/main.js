@@ -2,10 +2,11 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Vuex from 'vuex';
 import { HTTP as axios } from './axios/axios';
+import { DateUtils as date_utils } from './dateUtils/date-utils';
 import VueProgressiveImage from 'progressive-image/dist/vue';
 
 Vue.prototype.$http = axios;
-
+Vue.prototype.$date_utils = date_utils;
 Vue.use( Vuex );
 Vue.use( VueRouter );
 Vue.use( VueProgressiveImage, {
