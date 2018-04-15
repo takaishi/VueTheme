@@ -41,93 +41,67 @@
 </template>
 
 <script>
-export default {
-
-	mounted: function() {
-
-		const vm = this;
-
-		if ( vm.$route.params.name ) {
-
-			vm.getCatId( vm.$route.params.name );
-
-		}
-
-	},
-	data() {
-
-		return {
-
-			posts: {},
-			loaded: 'false',
-			pageTitle: '',
-			totalCount: '',
-			catName: ''
-
-		};
-
-	},
-
-	methods: {
-
-		getPosts: function( catId ) {
-
-			const vm = this;
-			vm.loaded = 'false';
-			vm.$http.get( 'wp/v2/posts', {
-				params: { categories: catId }
-			} )
-			.then( ( res ) => {
-
-				vm.posts = res.data;
-
-				vm.loaded = 'true';
-
-				vm.pageTitle = 'Category' + ' - ' + vm.catName;
-
-				vm.$store.commit( 'rtChangeTitle', vm.pageTitle );
-
-			} )
-			.catch( ( res ) => {
-				//console.log( `Something went wrong : ${ res }` );
-			} );
-
-		},
-		getCatId: function( name ) {
-			const vm = this;
-			vm.catName = name;
-			vm.loaded = 'false';
-			vm.$http.get( 'wp/v2/categories/?slug=' + name )
-			.then( ( res ) => {
-
-				res = res.data[ 0 ];
-				vm.totalCount = ( res.data );
-				vm.getPosts( res.id );
-
-			} )
-			.catch( ( res ) => {
-				//console.log( `Something went wrong : ${ res }` );
-			} );
-		},
-		formatDate: function( value ) {
-
-			value = value.date;
-			if ( value ) {
-				const date = new Date( value );
-				const monthNames = [ "January", "February", "March",
-					"April", "May", "June", "July",
-					"August", "September", "October",
-					"November", "December" ];
-
-				const day = date.getDate();
-				const monthIndex = date.getMonth();
-				const year = date.getFullYear();
-
-				return monthNames[ monthIndex ] + ',' + day + ' ' + year;
-			}
-
-		}
-	}
-
-};
+  export default {
+    mounted: function () {
+      const vm = this
+      if (vm.$route.params.name) {
+        vm.getCatId(vm.$route.params.name)
+      }
+    },
+    data () {
+      return {
+        posts: {},
+        loaded: 'false',
+        pageTitle: '',
+        totalCount: '',
+        catName: ''
+      }
+    },
+    methods: {
+      getPosts: function (catId) {
+        const vm = this
+        vm.loaded = 'false'
+        vm.$http.get('wp/v2/posts', {
+          params: { categories: catId }
+        })
+          .then((res) => {
+            vm.posts = res.data
+            vm.loaded = 'true'
+            vm.pageTitle = 'Category' + ' - ' + vm.catName
+            vm.$store.commit('rtChangeTitle', vm.pageTitle)
+          })
+          .catch((res) => {
+            // console.log(`Something went wrong : ${ res }`)
+          })
+      },
+      getCatId: function (name) {
+        const vm = this
+        vm.catName = name
+        vm.loaded = 'false'
+        vm.$http.get('wp/v2/categories/?slug=' + name)
+          .then((res) => {
+            res = res.data[ 0 ]
+            vm.totalCount = (res.data)
+            vm.getPosts(res.id)
+          })
+          .catch((res) => {
+            // console.log(`Something went wrong : ${ res }`)
+          })
+      },
+      formatDate: function (value) {
+        value = value.date
+        if (value) {
+          const date = new Date(value)
+          const monthNames = [ 'January', 'February', 'March',
+            'April', 'May', 'June', 'July',
+            'August', 'September', 'October',
+            'November', 'December' ]
+          const day = date.getDate()
+          const monthIndex = date.getMonth()
+          const year = date.getFullYear()
+          return monthNames[ monthIndex ] + ',' + day + ' ' + year
+        }
+      }
+    }
+  }
 </script>

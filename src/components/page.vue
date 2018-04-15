@@ -29,52 +29,41 @@
 </template>
 
 <script>
-export default {
+  export default {
+    mounted: function () {
+      this.getPage()
+    },
 
-	mounted: function() {
-		this.getPage();
-	},
-
-	data() {
-		return {
-			page: {},
-			loaded: 'false',
-			pageTitle: ''
-		};
-	},
-	methods: {
-		getPage: function() {
-
-			const vm = this;
-			vm.loaded = 'false';
-
-			vm.$http.get( 'wp/v2/pages', {
-				params: { slug: vm.$route.params.name }
-			} )
-			.then( ( res ) => {
-
-				vm.page = res.data[ 0 ];
-				vm.loaded = 'true';
-				vm.pageTitle = vm.page.title.rendered;
-				vm.$store.commit( 'rtChangeTitle', vm.pageTitle );
-
-			} )
-			.catch( ( res ) => {
-
-				//console.log( `Something went wrong : ${ res }` );
-
-			} );
-
-		}
-	},
-	watch: {
-
-		'$route'( to, from ) {
-			// react to route changes...
-			this.getPage();
-		}
-
-	}
-
-};
+    data () {
+      return {
+        page: {},
+        loaded: 'false',
+        pageTitle: ''
+      }
+    },
+    methods: {
+      getPage: function () {
+        const vm = this
+        vm.loaded = 'false'
+        vm.$http.get('wp/v2/pages', {
+          params: { slug: vm.$route.params.name }
+        })
+          .then((res) => {
+            vm.page = res.data[ 0 ]
+            vm.loaded = 'true'
+            vm.pageTitle = vm.page.title.rendered
+            vm.$store.commit('rtChangeTitle', vm.pageTitle)
+          })
+          .catch((res) => {
+            // console.log( `Something went wrong : ${ res }` )
+          })
+      }
+    },
+    watch: {
+      '$route' (to, from) {
+        // react to route changes...
+        this.getPage()
+      }
+    }
+  }
 </script>

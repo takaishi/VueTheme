@@ -46,121 +46,83 @@
 </template>
 
 <script>
-export default {
-
-	mounted: function() {
-
-		const vm = this;
-
-		if ( vm.$route.params.page ) {
-
-			vm.getPosts( vm.$route.params.page );
-
-		} else {
-
-			vm.getPosts();
-		}
-
-	},
-	data() {
-
-		return {
-
-			posts: {},
-			currentPage: '',
-			prevPage: '',
-			nextPage: '',
-			showNext: 'true',
-			showPrev: 'true',
-			postCollection: '',
-			postPerPage: '1',
-			totalPages: '',
-			loaded: 'false',
-			pageTitle: ''
-
-		};
-
-	},
-
-	methods: {
-
-		getPosts: function( pageNumber = 1 ) {
-
-			const vm = this;
-			vm.loaded = 'false';
-			vm.$http.get( 'wp/v2/posts', {
-				params: { per_page: vm.postPerPage, page: pageNumber }
-			} )
-			.then( ( res ) => {
-				vm.posts = res.data;
-				console.log("aaaaaaaaaaaaaaaaa");
-				console.log(res.data[0].link);
-				vm.totalPages = res.headers[ 'x-wp-totalpages' ];
-
-				if ( pageNumber <= parseInt( vm.totalPages ) ) {
-
-					vm.currentPage = parseInt( pageNumber );
-
-				} else {
-
-					vm.$router.push( { 'name': 'home' } );
-					vm.currentPage = 1;
-
-				}
-
-				vm.loaded = 'true';
-				vm.pageTitle = 'Blog';
-				vm.$store.commit( 'rtChangeTitle', vm.pageTitle );
-
-			} )
-			.catch( ( res ) => {
-				//console.log( `Something went wrong : ${ res }` );
-			} );
-
-		},
-		rtShowNext: function( event ) {
-
-			const vm = this;
-
-			if ( vm.currentPage < vm.totalPages ) {
-
-				vm.currentPage = vm.currentPage + 1;
-
-				vm.$router.push( { 'name': 'home', params: { 'page': vm.currentPage } } );
-			}
-		},
-		rtShowPrev: function( event ) {
-
-			const vm = this;
-			if ( vm.currentPage != 1 ) {
-
-				vm.currentPage = vm.currentPage - 1;
-
-				vm.$router.push( { 'name': 'home', params: { 'page': vm.currentPage } } );
-
-			}
-		},
-		formatDate: function( value ) {
-
-			value = value.date;
-			if ( value ) {
-				const date = new Date( value );
-				const day = date.getDate();
-				const monthIndex = date.getMonth();
-				const year = date.getFullYear();
-
-			  return year + '-' + ("0" + (monthIndex + 1)).slice(-2) + '-' + ("0" + day).slice(-2);
-			}
-
-		}
-
-	},
-	watch: {
-
-		'$route'( to, from ) {
-			this.getPosts( this.$route.params.page );
-		}
-
-	}
-};
+  export default {
+    mounted: function () {
+      const vm = this
+      if (vm.$route.params.page) {
+        vm.getPosts(vm.$route.params.page)
+      } else {
+        vm.getPosts()
+      }
+    },
+    data () {
+      return {
+        posts: {},
+        currentPage: '',
+        prevPage: '',
+        nextPage: '',
+        showNext: 'true',
+        showPrev: 'true',
+        postCollection: '',
+        postPerPage: '1',
+        totalPages: '',
+        loaded: 'false',
+        pageTitle: ''
+      }
+    },
+    methods: {
+      getPosts: function (pageNumber = 1) {
+        const vm = this
+        vm.loaded = 'false'
+        vm.$http.get('wp/v2/posts', {
+          params: { per_page: vm.postPerPage, page: pageNumber }
+        })
+          .then((res) => {
+            vm.posts = res.data
+            vm.totalPages = res.headers[ 'x-wp-totalpages' ]
+            if (pageNumber <= parseInt(vm.totalPages)) {
+              vm.currentPage = parseInt(pageNumber)
+            } else {
+              vm.$router.push({ 'name': 'home' })
+              vm.currentPage = 1
+            }
+            vm.loaded = 'true'
+            vm.pageTitle = 'Blog'
+            vm.$store.commit('rtChangeTitle', vm.pageTitle)
+          })
+          .catch((res) => {
+            // console.log(`Something went wrong : ${ res }`)
+          })
+      },
+      rtShowNext: function (event) {
+        const vm = this
+        if (vm.currentPage < vm.totalPages) {
+          vm.currentPage = vm.currentPage + 1
+          vm.$router.push({ 'name': 'home', params: { 'page': vm.currentPage } })
+        }
+      },
+      rtShowPrev: function (event) {
+        const vm = this
+        if (vm.currentPage !== 1) {
+          vm.currentPage = vm.currentPage - 1
+          vm.$router.push({ 'name': 'home', params: { 'page': vm.currentPage } })
+        }
+      },
+      formatDate: function (value) {
+        value = value.date
+        if (value) {
+          const date = new Date(value)
+          const day = date.getDate()
+          const monthIndex = date.getMonth()
+          const year = date.getFullYear()
+          return year + '-' + ('0' + (monthIndex + 1)).slice(-2) + '-' + ('0' + day).slice(-2)
+        }
+      }
+    },
+    watch: {
+      '$route' (to, from) {
+        this.getPosts(this.$route.params.page)
+      }
+    }
+  }
 </script>
