@@ -3,21 +3,16 @@
 </template>
 
 <script>
-
-export default {
-
-	mounted: function() {
-
-	},
-	data() {
-		return {
-
-		};
-	},
-	methods: {
-
-	}
-};
+  export default {
+    mounted: function () {
+    },
+    data () {
+      return {
+      }
+    },
+    methods: {
+    }
+  }
 </script>
 
 <style>

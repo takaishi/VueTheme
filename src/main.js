@@ -45,13 +45,11 @@ const router = new VueRouter( {
 	mode: 'history',
 	routes: [
 
-		{ path: '/blog/:page(\\d+)?', name: 'home', component: posts },
-		{ path: '/blog/:name', name: 'post', component: post },
-		{ path: '/page/:name', name: 'page', component: page },
-		{ path: '/category/:name', name: 'cat', component: category },
-		{ path: '/tag/:name', name: 'tag', component: tag },
-		{ path: '/', redirect: '/blog' },
-
+		{ name: 'home', path: '/:page(\\d+)?', component: posts },
+		{ name: 'post', path: '/archives/:id', component: post },
+		{ name: 'page', path: '/page/:name', component: page },
+		{ name: 'cat', path: '/category/:name', component: category },
+		{ name: 'tag', path: '/tag/:name', component: tag }
 	]
 } );
 

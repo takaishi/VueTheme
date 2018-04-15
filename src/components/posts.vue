@@ -25,7 +25,7 @@
 							</span>
 						</span>
 					</div>
-					<h2 class="rt-post-title"><router-link :to="{ name: 'post', params: { name:post.slug }}"> {{ post.title.rendered }}</router-link> </h2>
+					<h2 class="rt-post-title"><router-link :to="{ name: 'post', params: { id:post.id }}"> {{ post.title.rendered }}</router-link> </h2>
 
 					<div class="progressive full" v-if="post.featured_image_src['full'][0]">
 
@@ -73,7 +73,7 @@ export default {
 			showNext: 'true',
 			showPrev: 'true',
 			postCollection: '',
-			postPerPage: '10',
+			postPerPage: '1',
 			totalPages: '',
 			loaded: 'false',
 			pageTitle: ''
@@ -93,6 +93,8 @@ export default {
 			} )
 			.then( ( res ) => {
 				vm.posts = res.data;
+				console.log("aaaaaaaaaaaaaaaaa");
+				console.log(res.data[0].link);
 				vm.totalPages = res.headers[ 'x-wp-totalpages' ];
 
 				if ( pageNumber <= parseInt( vm.totalPages ) ) {

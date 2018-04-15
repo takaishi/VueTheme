@@ -8,18 +8,21 @@
 			<div class="column large-10 medium-10 small-10">
 
 				<router-link :to="{ name: 'home'}" class="site-name"> {{ site_name }} </router-link>
+				<span>
+					{{ site_description }}
+				</span>
 
 			</div>
 
 			<div class="column large-2 medium-2 small-2 end">
 
-				<a id="nav-icon1" v-on:click="toggleMenu" v-bind:class="{open: isActive}">
-					<div></div>
-					<div></div>
-					<div></div>
-				</a>
+				<!--<a id="nav-icon1" v-on:click="toggleMenu" v-bind:class="{open: isActive}">-->
+					<!--<div></div>-->
+					<!--<div></div>-->
+					<!--<div></div>-->
+				<!--</a>-->
 
-				<nav id="site-navigation" v-bind:class="{open: isActive}">
+				<nav id="site-navigation" v-if="loaded === 'true'">
 
 					<ul>
 						<li v-for="item in menus" v-if="item.type != 'custom'">
@@ -39,49 +42,48 @@
 </template>
 
 <script>
-export default {
+  export default {
+    mounted: function () {
+      // console.log( wp.api.collections );
+      this.getMenu()
+    },
+    data () {
+      return {
 
-	mounted: function() {
+        menus: [],
+        site_name: rtwp.site_name,
+        site_description: rtwp.site_description,
+        isActive: false,
+        loaded: 'false'
 
-		//console.log( wp.api.collections );
-		this.getMenu();
-	},
-	data() {
-		return {
+      }
+    },
+    methods: {
 
-			menus: [],
-			site_name: rtwp.site_name,
-			isActive: false
+      getMenu: function () {
+        const vm = this
+        vm.loaded = 'false'
 
-		};
-	},
-	methods: {
-
-		getMenu: function() {
-
-			const vm = this;
-
-			vm.$http.get( 'wp-api-menus/v2/menu-locations/primary-menu' )
-			.then( ( res ) => {
-				vm.menus = res.data;
-			} )
-			.catch( ( res ) => {
-				//console.log( `Something went wrong : ${ res }` );
-			} );
-
-		},
-		getUrlName: function( url ) {
-
-			const array = url.split( '/' );
-			return array[ array.length - 2 ];
-		},
-		toggleMenu: function() {
-			//console.log("Clicked" + this.isActive);
-			this.isActive = ! this.isActive;
-		}
-
-	}
-};
+        vm.$http.get('wp-api-menus/v2/menu-locations/primary-menu')
+          .then((res) => {
+            console.log(vm)
+            vm.menus = res.data
+            vm.loaded = 'true'
+          })
+          .catch((res) => {
+            // console.log( `Something went wrong : ${ res }` );
+          })
+      },
+      getUrlName: function (url) {
+        const array = url.split('/')
+        return array[ array.length - 2 ]
+      },
+      toggleMenu: function () {
+        // console.log("Clicked" + this.isActive);
+        this.isActive = !this.isActive
+      }
+    }
+  }
 </script>
 
 <style>
