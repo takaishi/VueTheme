@@ -20,7 +20,7 @@ mix.setPublicPath('dist')
       'vue',
       'vuex',
     ])
-    // .sass('src/styles/app.scss', 'styles/')
+    .sass('sass/style.scss', '../')
     .copyDirectory('src/assets', 'dist/assets')
     .options({
       processCssUrls: false,
