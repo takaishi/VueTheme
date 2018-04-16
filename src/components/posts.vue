@@ -14,13 +14,12 @@
 					<a href=""  v-if="showNext" v-on:click.prevent="rtShowNext()"> more &GT; </a>
 			</div>
 
-			<div class="medium-12 small-12 column" v-for="post in posts" :key="post.slug">
+			<div class="medium-12 small-12 column" v-for="post in posts" :key="post.id">
 
 				<div class="rt-post">
 
 					<div class="rt-meta">
 						<span class="posted-on">
-							<!--Posted On-->
 							<span class="date" v-text="formatDate( post )">
 							</span>
 						</span>

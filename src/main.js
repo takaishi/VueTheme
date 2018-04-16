@@ -50,8 +50,10 @@ const router = new VueRouter( {
 		{ name: 'post', path: '/archives/:id', component: post },
 		{ name: 'page', path: '/page/:name', component: page },
 		{ name: 'cat', path: '/category/:name', component: category },
-		{ name: 'tag', path: '/tag/:name', component: tag }
-	]
+		{ name: 'tag', path: '/tag/:name', component: tag },
+    { path: '/', redirect: 'home' },
+
+  ]
 } );
 
 //Define vuex store

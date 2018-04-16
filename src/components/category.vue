@@ -12,11 +12,10 @@
 
 				<div class="rt-post">
 
-					<h2 class="rt-post-title"><router-link :to="{ name: 'post', params: { name:post.slug }}"> {{ post.title.rendered }} </router-link> </h2>
+					<h2 class="rt-post-title"><router-link :to="{ name: 'post', params: { id:post.id }}"> {{ post.title.rendered }} </router-link> </h2>
 
 					<div class="rt-meta">
 						<span class="posted-on">
-							Posted On
 							<span class="date" v-text="formatDate( post )">
 							</span>
 						</span>
